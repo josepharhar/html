@@ -69682,6 +69682,8 @@ dictionary <dfn dictionary>AssignedNodesOptions</dfn> {
   data-x="dom-slot-assign"><code>assign(...<var>nodes</var>)</code></dfn> method steps are:</p>
 
   <ol>
+   <li><p>Let <var>affectedSlots</var> be a new <span data-x="set">ordered set</span>.</p></li>
+
    <li><p><span data-x="list iterate">For each</span> <var>node</var> of <span>this</span>'s
    <span>manually assigned nodes</span>, set <var>node</var>'s <span>manual slot assignment</span>
    to null.</p></li>
@@ -69692,9 +69694,16 @@ dictionary <dfn dictionary>AssignedNodesOptions</dfn> {
     <p><span data-x="list iterate">For each</span> <var>node</var> of <var>nodes</var>:</p>
 
     <ol>
-     <li><p>If <var>node</var>'s <span>manual slot assignment</span> refers to a <span>slot</span>,
-     then remove <var>node</var> from that <span>slot</span>'s
-     <span>manually assigned nodes</span>.</p></li>
+     <li><p>If <var>node</var>'s <span>manual slot assignment</span> refers to a <span>slot</span>
+     <var>oldSlot</var>, then:</p>
+
+      <ol>
+       <li><p>Remove <var>node</var> from <var>oldSlot</var>'s <span>manually assigned nodes</span>.</p></li>
+
+       <li><p>If <var>oldSlot</var> is not <span>this</span>, then <span data-x="set append">append</span>
+       <var>oldSlot</var> to <var>affectedSlots</var>.</p></li>
+      </ol>
+     </li>
 
      <li><p>Set <var>node</var>'s <span>manual slot assignment</span> to <span>this</span>.</p></li>
 
@@ -69707,6 +69716,9 @@ dictionary <dfn dictionary>AssignedNodesOptions</dfn> {
 
    <li><p>Run <span>assign slottables for a tree</span> for <span>this</span>'s
    <span>root</span>.</p></li>
+
+   <li><p><span data-x="list iterate">For each</span> <var>slot</var> of <var>affectedSlots</var>,
+   run <span>assign slottables for a tree</span> for <var>slot</var>'s <span>root</span>.</p></li>
   </ol>
   </div>
 
